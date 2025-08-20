@@ -31,5 +31,6 @@ input_data = pd.DataFrame({
 # === Predict ===
 if st.button("Predict Segmentation"):
     prediction = model.predict(input_data)
-    st.success(f"Predicted Segmentation: {prediction[0]}"
+    st.success(f"Predicted Segmentation: {prediction[0]}")
+
 
