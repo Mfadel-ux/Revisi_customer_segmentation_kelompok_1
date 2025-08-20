@@ -7,8 +7,8 @@ import numpy as np
 # =========================
 # Load model & feature columns
 # =========================
-with open("model.pkl", "rb") as f:
-    model = pickle.load(f)
+with open("model.pkl", "rb") as file:
+    model = pickle.load(file)
 
 
 st.title("Customer Segmentation Prediction")
@@ -32,5 +32,6 @@ input_data = pd.DataFrame({
 if st.button("Predict Segmentation"):
     prediction = model.predict(input_data)
     st.success(f"Predicted Segmentation: {prediction[0]}")
+
 
 
