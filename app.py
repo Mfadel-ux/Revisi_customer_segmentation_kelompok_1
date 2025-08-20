@@ -76,9 +76,6 @@ def encode_input_onehot(Age, Ever_Married, Gender, Graduated, Profession,
     cat_cols = ["Ever_Married", "Gender", "Graduated", "Profession", "Var_1"]
     df = pd.get_dummies(df, columns=cat_cols)
     
-    # Pastikan kolom sesuai dengan model
-    df = df.reindex(columns=feature_cols, fill_value=0)
-    return df
 
 # =========================
 # Prediction Button
@@ -119,4 +116,5 @@ if st.button("Predict Segment"):
     }
     
     st.markdown(f"**Penjelasan:** {segment_descriptions.get(predicted_class, 'Tidak ada penjelasan untuk segmen ini.')}")
+
 
