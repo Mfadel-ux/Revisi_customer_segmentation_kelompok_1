@@ -7,7 +7,7 @@ import numpy as np
 # =========================
 # Load model & feature columns
 # =========================
-with open("Logisti_model.pkl", "rb") as file:
+with open("logistic_model.pkl", "rb") as file:
     model = pickle.load(file)
 
 
@@ -32,6 +32,7 @@ input_data = pd.DataFrame({
 if st.button("Predict Segmentation"):
     prediction = model.predict(input_data)
     st.success(f"Predicted Segmentation: {prediction[0]}")
+
 
 
 
