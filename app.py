@@ -10,9 +10,6 @@ import numpy as np
 with open("logistic_model.pkl", "rb") as f:
     model = pickle.load(f)
 
-with open("feature_cols.pkl", "rb") as f:
-    feature_cols = pickle.load(f)
-
 # =========================
 # App Header
 # =========================
@@ -122,3 +119,4 @@ if st.button("Predict Segment"):
     }
     
     st.markdown(f"**Penjelasan:** {segment_descriptions.get(predicted_class, 'Tidak ada penjelasan untuk segmen ini.')}")
+
