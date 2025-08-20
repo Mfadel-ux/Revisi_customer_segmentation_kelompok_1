@@ -8,9 +8,6 @@ import pickle
 with open("logistic_model.pkl", "rb") as f:
     model = pickle.load(f)
 
-with open("scaler.pkl", "rb") as f:
-    scaler = pickle.load(f)
-
 # =======================
 # Column order sesuai training
 # (isi dengan urutan kolom X_train Anda)
@@ -78,3 +75,4 @@ if st.button("Predict"):
 
     st.success(f"Predicted Segmentation: {prediction[0]}")
     st.write("Prediction Probabilities:", prediction_proba)
+
