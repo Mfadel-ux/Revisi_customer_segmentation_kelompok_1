@@ -2,77 +2,82 @@ import streamlit as st
 import pandas as pd
 import pickle
 
-# =======================
-# Load model & scaler
-# =======================
-with open("logistic_model.pkl", "rb") as f:
-    model = pickle.load(f)
+html_temp = """<div style="background-color:#000;padding:10px;border-radius:10px">
+                <h1 style="color:#fff;text-align:center">Customer Segmentation Prediction App</h1> 
+                <h4 style="color:#fff;text-align:center">Made for: Marketing Team</h4> 
+                </div>
+                """
 
-# =======================
-# Column order sesuai training
-# (isi dengan urutan kolom X_train Anda)
-# =======================
-feature_columns = [
-    "Age", "Work_Experience", "Family_Size",
-    "Profession_Artist", "Profession_Doctor", "Profession_Engineer",
-    "Profession_Homemaker", "Profession_Lawyer", "Profession_Marketing",
-    "Spending_Score_High", "Spending_Score_Average", "Spending_Score_Low"
-]
+desc_temp = """ 
+### Customer Segmentation App  
+Aplikasi ini digunakan untuk memprediksi segmen customer berdasarkan data demografi & perilaku belanja.  
 
-# =======================
-# Streamlit UI
-# =======================
-st.title("Customer Segmentation Prediction App")
+#### Data Source  
+Kaggle: [Customer Segmentation Dataset](https://www.kaggle.com/datasets)  
+"""
 
-# Input manual user
-age = st.number_input("Age", min_value=18, max_value=100, value=30)
-work_exp = st.number_input("Work Experience", min_value=0, max_value=40, value=5)
-family_size = st.number_input("Family Size", min_value=1, max_value=10, value=3)
+# Main app
+def main():
+    stc.html(html_temp)
+    menu = ["Home", "Predict Customer Segmentation"]
+    choice = st.sidebar.selectbox("Menu", menu)
 
-# Pilihan profession
-profession = st.selectbox("Profession", [
-    "Artist", "Doctor", "Engineer", "Homemaker", "Lawyer", "Marketing"
-])
+    if choice == "Home":
+        st.subheader("Home")
+        st.markdown(desc_temp, unsafe_allow_html=True)
+    elif choice == "Predict Customer Segmentation":
+        run_ml_app()
 
-# Spending Score
-spending = st.selectbox("Spending Score", ["High", "Average", "Low"])
+def run_ml_app():
+    design = """<div style="padding:15px;">
+                    <h2 style="color:#000">Input Data Customer</h2>
+                </div>
+             """
+    st.markdown(design, unsafe_allow_html=True)
 
-# =======================
-# Convert input ke DataFrame
-# =======================
-# One-hot encoding manual
-profession_ohe = {f"Profession_{p}": 0 for p in [
-    "Artist", "Doctor", "Engineer", "Homemaker", "Lawyer", "Marketing"
-]}
-profession_ohe[f"Profession_{profession}"] = 1
+    # Form input sesuai fitur
+    col1, col2 = st.columns(2)
+    age = col1.number_input("Age", min_value=18, max_value=100, step=1)
+    work_exp = col2.number_input("Work Experience (years)", min_value=0, max_value=40, step=1)
 
-spending_ohe = {
-    "Spending_Score_High": 0,
-    "Spending_Score_Average": 0,
-    "Spending_Score_Low": 0
-}
-spending_ohe[f"Spending_Score_{spending}"] = 1
+    profession = col1.selectbox("Profession", 
+        ["Healthcare", "Engineer", "Lawyer", "Artist", "Doctor", "Entertainment", "Marketing", "Homemaker", "Executive", "Other"])
 
-# Gabung semua input
-input_dict = {
-    "Age": age,
-    "Work_Experience": work_exp,
-    "Family_Size": family_size
-}
-input_dict.update(profession_ohe)
-input_dict.update(spending_ohe)
+    spending_score = col2.selectbox("Spending Score", ["Low", "Average", "High"])
 
-input_data = pd.DataFrame([input_dict])
-input_data = input_data[feature_columns]  # pastikan urutan sama
+    family_size = col1.number_input("Family Size", min_value=1, max_value=10, step=1)
 
-# =======================
-# Prediksi
-# =======================
-if st.button("Predict"):
-    input_scaled = scaler.transform(input_data)
-    prediction = model.predict(input_scaled)
-    prediction_proba = model.predict_proba(input_scaled)
+    button = st.button("Predict Segmentation")
 
-    st.success(f"Predicted Segmentation: {prediction[0]}")
-    st.write("Prediction Probabilities:", prediction_proba)
+    if button:
+        # Buat DataFrame dari input user
+        input_data = pd.DataFrame({
+            "Age": [age],
+            "Work_Experience": [work_exp],
+            "Profession": [profession],
+            "Spending_Score": [spending_score],
+            "Family_Size": [family_size]
+        })
 
+        # Encoding categorical (sesuai dengan training model Anda)
+        input_encoded = pd.get_dummies(input_data, drop_first=True)
+
+        # Align ke feature model
+        missing_cols = set(model.feature_names_in_) - set(input_encoded.columns)
+        for col in missing_cols:
+            input_encoded[col] = 0
+        input_encoded = input_encoded[model.feature_names_in_]
+
+        # Scaling
+        input_scaled = scaler.transform(input_encoded)
+
+        # Prediksi
+        prediction = model.predict(input_scaled)[0]
+
+        mapping = {0: "A", 1: "B", 2: "C", 3: "D"}  # Sesuaikan dengan label encoding Anda
+        result = mapping[prediction]
+
+        st.success(f"Predicted Customer Segmentation: {result}")
+
+if __name__ == "__main__":
+    main()
