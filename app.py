@@ -5,7 +5,7 @@ import numpy as np
 # ==============================
 # Load Model & Scaler
 # ==============================
-with open("Logisti_model.pkl", "rb") as f:
+with open("Logistic_model.pkl", "rb") as f:
     Logistic_Regression_Model = pickle.load(f)
 
 with open("scaler.pkl", "rb") as f:
@@ -56,3 +56,4 @@ def main():
 
     st.header("Input Customer Data")
     g
+
