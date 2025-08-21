@@ -5,7 +5,7 @@ import numpy as np
 # ==============================
 # Load Model & Scaler
 # ==============================
-with open("Logisti_Regression_Model.pkl", "rb") as f:
+with open("Logistic_Regression_Model.pkl", "rb") as f:
     Logisti_Regression_Model = pickle.load(f)
 
 # load scaler
@@ -77,5 +77,6 @@ def main():
 # ==============================
 if __name__ == "__main__":
     main()
+
 
 
