@@ -31,29 +31,4 @@ def preprocess_input(gender, age, profession, work_experience, spending_score, f
     profession_num = profession_dict.get(profession, 5)
     spending_num = spending_dict.get(spending_score, 1)
 
-    # Urutkan fitur sesuai training
-    features = [[gender_num, age, profession_num, work_experience, spending_num, family_size]]
-
-    # Scaling
-    features_scaled = scaler.transform(features)
-    return features_scaled
-
-# ==============================
-# Prediction Function
-# ==============================
-def predict_customer_segmentation(gender, age, profession, work_experience, spending_score, family_size):
-    features_scaled = preprocess_input(gender, age, profession, work_experience, spending_score, family_size)
-    prediction = Logistic_Regression_Model.predict(features_scaled)
-    prediction_proba = Logistic_Regression_Model.predict_proba(features_scaled)
-    return prediction[0], prediction_proba
-
-# ==============================
-# Streamlit App
-# ==============================
-def main():
-    st.title("Customer Segmentation Prediction")
-    st.write("Streamlit Demo")
-
-    st.header("Input Customer Data")
-    g
-
+    # Urutkan fitur se
