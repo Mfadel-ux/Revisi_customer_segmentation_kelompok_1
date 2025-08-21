@@ -18,7 +18,7 @@ Kaggle: [Customer Segmentation Dataset](https://www.kaggle.com/datasets)
 
 # Main app
 def main():
-    stc.html(html_temp)
+    st.markdown(html_temp, unsafe_allow_html=True)  # ganti stc.html jadi st.markdown
     menu = ["Home", "Predict Customer Segmentation"]
     choice = st.sidebar.selectbox("Menu", menu)
 
@@ -27,6 +27,7 @@ def main():
         st.markdown(desc_temp, unsafe_allow_html=True)
     elif choice == "Predict Customer Segmentation":
         run_ml_app()
+
 
 def run_ml_app():
     design = """<div style="padding:15px;">
@@ -81,3 +82,4 @@ def run_ml_app():
 
 if __name__ == "__main__":
     main()
+
