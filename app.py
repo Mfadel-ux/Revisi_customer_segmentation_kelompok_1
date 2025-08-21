@@ -5,12 +5,12 @@ import numpy as np
 # ==============================
 # Load Model & Scaler
 # ==============================
-with open("Logistic_Regression_Model", "rb") as f:
-    Logistic_Regression_Model = pickle.load(f)
+with open("Logisti_Regression_Model.pkl", "rb") as f:
+    Logisti_Regression_Model = pickle.load(f)
 
+# load scaler
 with open("scaler.pkl", "rb") as f:
     scaler = pickle.load(f)
-
 # ==============================
 # Preprocess Input Function
 # ==============================
@@ -77,4 +77,5 @@ def main():
 # ==============================
 if __name__ == "__main__":
     main()
+
 
