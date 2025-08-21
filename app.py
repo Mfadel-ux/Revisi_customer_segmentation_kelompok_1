@@ -73,3 +73,22 @@ def predict_customer_segmentation(gender, age, profession, work_experience, spen
         "Healthcare": 3,
         "Lawyer": 4,
         "Entertainment": 5
+    }
+    prof = prof_map.get(profession, 0)
+
+    # Spending Score encoding contoh
+    spend_map = {"Low": 0, "Average": 1, "High": 2}
+    spend = spend_map.get(spending_score, 1)
+
+    # Feature array
+    features = [[gen, age, prof, work_experience, spend, family_size]]
+
+    # Predict
+    prediction = Logistic_Regression_Model.predict(features)
+    prediction_proba = Logistic_Regression_Model.predict_proba(features)
+
+    return prediction[0], prediction_proba
+
+
+if __name__ == "__main__":
+    main()
